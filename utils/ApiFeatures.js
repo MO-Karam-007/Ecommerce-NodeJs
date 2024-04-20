@@ -12,9 +12,12 @@ class ApiFeatures
         // Filter with ranges between
         // Filter with gte and lte
         // Filter with GT and LT
+        // /_(g|l)t(e?)?/
+
+        // console.log(/_(g|l)t(e?)?/.test('Monster_gt'));
 
         const features = ['page', 'limit', 'sort', 'skip', 'filter', 'fields']
-        let queryClone = this.query;
+        let queryClone = { ...this.query };
         let filters = {}
 
         // {page:3,sold : 4, prace : 15-20}
@@ -34,12 +37,13 @@ class ApiFeatures
             {
                 if (value.includes('-'))
                 {
-                    value = value.split('-').map(el => el * 1).sort((a, b) => a - b)
+                    value = value.split('-')
+
+                    value = value.map(el => el * 1).sort((a, b) => a - b)
 
                     Object.assign(rangeFilters, {
-                        [key]: { $lt: value[1], $gt: value[0] }
+                        [key]: { $lte: value[1], $gte: value[0] }
                     })
-                    console.log("rangeFilters", rangeFilters);
                     Object.assign(filters, {
                         $and: [rangeFilters]
                     })
@@ -47,13 +51,40 @@ class ApiFeatures
             })
         }
 
-        console.log(`Filters 😂😂`, filters);
+        // let comperingFilter = Object.keys(queryClone).filter(item => { item.includes("_g) })
+        // if (comperingFilter.length != 0)
+        // {
+        //     comperingFilter.forEach
+        //     console.log(`filters inside 😂`, Object.assign(filters, { name: "Mother " }));
+
+        // }
+
+        // Object.entries(queryClone).forEach(([k, v]) =>
+        // {
+        //     if (/^[a-zA-Z]+$/.test(k))
+        //     {
+        //         Object.assign(filters, { [k]: v })
+        //     }
+        // })
+
+
+
+        // if(/^[a-zA-Z]+$/.test())
 
         return filters
 
     }
 
+    pagination()
+    {
+        if (this.query.page)
+        {
+            let page = this.query.page || 1
 
+
+        }
+
+    }
 }
 
 

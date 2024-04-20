@@ -67,9 +67,10 @@ exports.getAll = Model =>
         let query = req.query
 
         query = new ApiFeatures(query).filter()
-
+        // 
         console.log(`query findall`, query);
 
+        // { '$and': [{ price: { $gte: 10000, $lte: 50000 } }], priceAfterDiscount: 15000 }
         const doc = await Model.find(query)
         // .select('-_id')
 
