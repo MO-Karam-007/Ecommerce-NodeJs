@@ -44,40 +44,32 @@ exports.validateCreateProduct = [
         .withMessage('Product must belong to category')
         .isMongoId()
         .withMessage('Invalid mongo ID')
-    // .custom((id) =>
-    // {
-    //     Category.findById(id).then(cat =>
-    //     {
-    //         console.log(`The cat`, cat);
-    //         if (cat == null)
-    //         {
-    //             return Promise.reject(
-    //                 new Error(`Not category with this id: ${id} `)
-    //             )
-    //         }
-    //         // return true
-
-    //     })
-    // }),
-    ,
+        .custom((id) =>
+        {
+            return Category.findById(id).then(cat =>
+            {
+                if (cat)
+                {
+                    return Promise.reject(new Error(`Not category with this id: ${id}`))
+                }
+            })
+        }),
     check('brand')
         .notEmpty()
         .withMessage('Product must belong to brand')
         .isMongoId()
         .withMessage('Invalid mongo ID')
-    // .custom((id) =>
-    // {
-    //     Brand.findById(id).then(brand =>
-    //     {
-    //         if (!brand)
-    //         {
-    //             return Promise.reject(
-    //                 new Error(`Not brand with this id: ${brand} `)
-    //             )
-    //         }
-    //         return true
-    //     })
-    // })
+        .custom((id) =>
+        {
+            return Brand.findById(id).then(brand =>
+            {
+                if (!brand)
+                {
+                    return Promise.reject(new Error(`Not brand with this id: ${brand}`))
+                }
+                return true
+            })
+        })
     ,
     validationMidlleware
 ]
@@ -93,11 +85,11 @@ exports.getProductValidator = [
 exports.updateProductValidator = [
     check('id').isMongoId().withMessage('Invalid ID formate'),
     body('title')
-      .optional()
-      .custom((val, { req }) =>
-      {
-        req.body.slug = slugify(val);
-        return true;
-      }),
-      validationMidlleware,
-  ];
+        .optional()
+        .custom((val, { req }) =>
+        {
+            req.body.slug = slugify(val);
+            return true;
+        }),
+    validationMidlleware,
+];

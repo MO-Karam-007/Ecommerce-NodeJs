@@ -3,7 +3,6 @@ const { check, body } = require('express-validator')
 const slugify = require('slugify')
 const User = require('../../models/User')
 
-
 exports.signUpValidator = [
     check('email')
         .notEmpty().withMessage('Email required')
@@ -16,9 +15,7 @@ exports.signUpValidator = [
                 {
                     return Promise.reject(new Error('Email has already been taken'))
                 }
-
             })
-
         }),
     validationMidlleware
 ]
