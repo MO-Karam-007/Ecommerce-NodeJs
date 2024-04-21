@@ -12,7 +12,7 @@ const ApiError = require('./utils/apiError')
 require('dotenv').config();
 
 const dbConnection = require('./config/database');
-const mountRoutes = require('./routes/indexRoute')
+const mountRoutes = require('./routes')
 const globalError = require('./middlewares/errorHandler')
 
 /// DATABASE CONNECTION

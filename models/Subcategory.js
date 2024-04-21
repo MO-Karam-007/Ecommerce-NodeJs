@@ -14,7 +14,7 @@ const subcategotySchema = new mongoose.Schema({
         lowercase: true,
     },
     category: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Category",
         required: [true, "Subcategory must belong to category"]
 
@@ -22,5 +22,5 @@ const subcategotySchema = new mongoose.Schema({
 }, {
     timestamps: true
 })
-const subcategoryModel = mongoose.model('Subcategory', subcategotySchema)
-module.exports = subcategoryModel
+const subcategory = mongoose.model('Subcategory', subcategotySchema)
+module.exports = subcategory
